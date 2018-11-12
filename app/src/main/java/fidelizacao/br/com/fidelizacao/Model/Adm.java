@@ -71,7 +71,7 @@ public class Adm {
         this.dataExpiracao = dataExpiracao;
     }
 
-    public boolean isPrimeirologin() {
+    public boolean isPrimeiroLogin() {
         return primeiroLogin;
     }
 
@@ -102,6 +102,4 @@ public class Adm {
     public void setDataCadastro(Date dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
-
-
 }

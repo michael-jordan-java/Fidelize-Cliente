@@ -13,6 +13,7 @@ public class Cliente {
     private Date dataUltimoAcesso;
     private boolean status;
     private boolean isPrimeiraCompra;
+    private String tokenPushNotification;
 
 
     public Long getClienteId() {
@@ -93,6 +94,14 @@ public class Cliente {
 
     public void setPrimeiraCompra(boolean primeiraCompra) {
         isPrimeiraCompra = primeiraCompra;
+    }
+
+    public String getTokenPushNotification() {
+        return tokenPushNotification;
+    }
+
+    public void setTokenPushNotification(String tokenPushNotification) {
+        this.tokenPushNotification = tokenPushNotification;
     }
 }
 

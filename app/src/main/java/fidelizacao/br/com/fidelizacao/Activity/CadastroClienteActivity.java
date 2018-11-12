@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -20,6 +21,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import fidelizacao.br.com.fidelizacao.Model.Cliente;
 import fidelizacao.br.com.fidelizacao.R;
@@ -29,6 +31,7 @@ import fidelizacao.br.com.fidelizacao.Task.HandlerTaskAdapter;
 import fidelizacao.br.com.fidelizacao.Task.TaskRest;
 import fidelizacao.br.com.fidelizacao.Util.JsonParser;
 import fidelizacao.br.com.fidelizacao.Util.MaskFormattUtil;
+import fidelizacao.br.com.fidelizacao.Util.ValidarCPFUtil;
 
 public class CadastroClienteActivity extends AppCompatActivity {
     private TextInputEditText etNome, etCpf, etEmail, etCelular, etDataNascimento;
@@ -37,12 +40,6 @@ public class CadastroClienteActivity extends AppCompatActivity {
     private ImageView ivCadastrar;
     private Toolbar toolbar;
     private Calendar calendar;
-    private DatePickerDialog datePickerDialog;
-    private TextInputLayout textInputLayoutDataNascimento;
-    private int ano, mes, dia;
-
-
-    private static final int DATE_DIALOG_ID = 0;
 
 
     @Override
@@ -57,54 +54,7 @@ public class CadastroClienteActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etCelular = findViewById(R.id.etCelular);
         etDataNascimento = findViewById(R.id.etDataNascimento);
-        textInputLayoutDataNascimento = findViewById(R.id.textInputLayoutDataNascimento);
-
-        textInputLayoutDataNascimento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "1", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        etDataNascimento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                calendar = Calendar.getInstance();
-                ano = calendar.get(Calendar.YEAR);
-                mes = calendar.get(Calendar.MONTH);
-                dia = calendar.get(Calendar.DAY_OF_MONTH);
-
-                datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        etDataNascimento.setText(dia + "/" + mes + "/" + ano);
-                        Toast.makeText(context, "Dia: " + dayOfMonth + " Mês: " + month + " ano: " + year, Toast.LENGTH_SHORT).show();
-                    }
-                }, ano, mes, dia);
-
-
-                datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "cancel",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                etDataNascimento.clearFocus(); //Focus must be cleared so the value change listener is called
-                                etDataNascimento.setText("");
-                                datePickerDialog.dismiss();
-                            }
-                        });
-
-                datePickerDialog.show();
-            }
-        });
-
-        etDataNascimento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "2", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
+        etDataNascimento.setFocusable(false);
 
         ivCadastrar = findViewById(R.id.ivCadastrar);
 
@@ -123,92 +73,48 @@ public class CadastroClienteActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        etCpf.addTextChangedListener(MaskFormattUtil.insert(etCpf, context));
-        etCelular.addTextChangedListener(MaskFormattUtil.insert(etCelular, context));
+        etCpf.addTextChangedListener(MaskFormattUtil.maskCPF(etCpf, context));
+        etCelular.addTextChangedListener(MaskFormattUtil.maskCelualr(etCelular, context));
+
+        // Configurar DatePicker
+        calendar = Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel();
+            }
+
+        };
+
+        etDataNascimento.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new DatePickerDialog(context, date, calendar
+                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
         configurarOnKeyFocus();
+    }
+
+    private void updateLabel() {
+
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, new Locale("pt", "BR"));
+
+        etDataNascimento.setText(sdf.format(calendar.getTime()));
     }
 
 
     private void configurarOnKeyFocus() {
-        etNome.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
-                        etNome.setFocusable(false);
-                        etEmail.setFocusable(true);
-                        return true;
-                    }
-
-                }
-                return false;
-            }
-        });
-
-        etEmail.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
-                        etEmail.setFocusable(false);
-                        etCpf.setFocusable(true);
-                        return true;
-                    }
-
-                }
-                return false;
-            }
-        });
-
-        etCpf.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
-                        etCpf.setFocusable(false);
-                        etCelular.setFocusable(true);
-                        return true;
-                    }
-
-                }
-                return false;
-            }
-        });
-
-        etDataNascimento.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
-                        etDataNascimento.setFocusable(false);
-                        etEmail.setFocusable(true);
-                        return true;
-                    }
-
-                }
-                return false;
-            }
-        });
-
-        ivCadastrar.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
-                        etDataNascimento.setFocusable(false);
-                        ivCadastrar.setFocusable(true);
-                        return true;
-                    }
-
-                }
-                return false;
-            }
-        });
 
     }
 
@@ -222,26 +128,30 @@ public class CadastroClienteActivity extends AppCompatActivity {
         if (txtNome.isEmpty() || txtCpf.isEmpty() || txtEmail.isEmpty() || txtCelular.isEmpty() || txtDataNascimento.isEmpty()) {
             Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
         } else {
-            Cliente cliente = new Cliente();
-            cliente.setNome(txtNome);
-            cliente.setCpf(txtCpf);
-            cliente.setEmail(txtEmail);
-            cliente.setCelular(txtCelular);
+            if (!ValidarCPFUtil.isCPF(txtCpf.replace(".", "").replace("-", ""))) {
+                Toast.makeText(context, "CPF Inválido!", Toast.LENGTH_SHORT).show();
+            } else {
+                Cliente cliente = new Cliente();
+                cliente.setNome(txtNome);
+                cliente.setCpf(txtCpf);
+                cliente.setEmail(txtEmail);
+                cliente.setCelular(txtCelular);
 
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            Date dataFormatada = null;
-            try {
-                dataFormatada = format.parse(txtDataNascimento);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                Date dataFormatada = null;
+                try {
+                    dataFormatada = format.parse(txtDataNascimento);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                cliente.setDataNascimento(dataFormatada);
+                cliente.setPrimeiraCompra(true);
+                cliente.setStatus(true);
+
+
+                new TaskRest(TaskRest.RequestMethod.POST, handlerCadastroCliente).execute(RestAddress.CADASTRAR_CLIENTE, new JsonParser<>(Cliente.class).fromObject(cliente));
             }
-            cliente.setDataNascimento(dataFormatada);
-            cliente.setPrimeiraCompra(true);
-            cliente.setStatus(true);
-
-
-            new TaskRest(TaskRest.RequestMethod.POST, handlerCadastroCliente).execute(RestAddress.CADASTRAR_CLIENTE, new JsonParser<>(Cliente.class).fromObject(cliente));
         }
     }
 
@@ -260,7 +170,9 @@ public class CadastroClienteActivity extends AppCompatActivity {
         public void onSuccess(String valueRead) {
             super.onSuccess(valueRead);
             progressDialog.dismiss();
-            Toast.makeText(CadastroClienteActivity.this, valueRead, Toast.LENGTH_SHORT).show();
+            Toast.makeText(CadastroClienteActivity.this, "VocÊ se cadastrou com sucesso, agora é só fazer o login e já está participando do programa de fidelização", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(context, LoginActivity.class));
+            finish();
         }
 
         @Override

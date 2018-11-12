@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        etCpf.addTextChangedListener(MaskFormattUtil.insert(etCpf, context));
+        etCpf.addTextChangedListener(MaskFormattUtil.maskCPF(etCpf, context));
         etCpf.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {

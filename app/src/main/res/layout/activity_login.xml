@@ -39,7 +39,6 @@
         android:maxLength="14"
         android:maxLines="1"
         android:paddingLeft="16dp"
-        android:text="432.803.288-70"
         android:windowSoftInputMode="adjustResize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

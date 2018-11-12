@@ -15,7 +15,7 @@ public class ProgramaFidelizacao {
         return programaFidelizacaoId;
     }
 
-    public void programaFidelizacaoId(Long id) {
+    public void setProgramaFidelizacaoId(Long id) {
         this.programaFidelizacaoId = id;
     }
 
@@ -27,7 +27,7 @@ public class ProgramaFidelizacao {
         this.tempoExpiracao = tempoExpiracao;
     }
 
-    public Adm getUsuariCadastro() {
+    public Adm getUsuarioCadastro() {
         return usuarioCadastro;
     }
 
@@ -57,13 +57,6 @@ public class ProgramaFidelizacao {
 
     public void setTipoFidelizacao(TipoFidelizacao tipoFidelizacao) {
         this.tipoFidelizacao = tipoFidelizacao;
-    }
 
-    public Date getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
     }
 }

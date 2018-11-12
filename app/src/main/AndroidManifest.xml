@@ -15,7 +15,6 @@
             android:name=".Activity.MainActivity"
             android:launchMode="singleTop">
 
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -76,6 +75,7 @@
                     android:pathPattern="/.*"
                     android:scheme="https" />
             </intent-filter>
+
 
         </activity>
 
