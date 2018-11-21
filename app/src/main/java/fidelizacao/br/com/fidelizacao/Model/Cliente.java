@@ -11,17 +11,16 @@ public class Cliente {
     private Date dataNascimento;
     private Date dataCadastro;
     private Date dataUltimoAcesso;
+    private String tokenPushNotification;
     private boolean status;
     private boolean isPrimeiraCompra;
-    private String tokenPushNotification;
-
 
     public Long getClienteId() {
         return clienteId;
     }
 
-    public void setClienteId(Long id) {
-        this.clienteId = id;
+    public void setClienteId(Long clienteId) {
+        this.clienteId = clienteId;
     }
 
     public String getCpf() {
@@ -80,6 +79,14 @@ public class Cliente {
         this.dataUltimoAcesso = dataUltimoAcesso;
     }
 
+    public String getTokenPushNotification() {
+        return tokenPushNotification;
+    }
+
+    public void setTokenPushNotification(String tokenPushNotification) {
+        this.tokenPushNotification = tokenPushNotification;
+    }
+
     public boolean isStatus() {
         return status;
     }
@@ -94,14 +101,6 @@ public class Cliente {
 
     public void setPrimeiraCompra(boolean primeiraCompra) {
         isPrimeiraCompra = primeiraCompra;
-    }
-
-    public String getTokenPushNotification() {
-        return tokenPushNotification;
-    }
-
-    public void setTokenPushNotification(String tokenPushNotification) {
-        this.tokenPushNotification = tokenPushNotification;
     }
 }
 

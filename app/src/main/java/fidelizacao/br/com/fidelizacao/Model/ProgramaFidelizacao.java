@@ -15,8 +15,8 @@ public class ProgramaFidelizacao {
         return programaFidelizacaoId;
     }
 
-    public void setProgramaFidelizacaoId(Long id) {
-        this.programaFidelizacaoId = id;
+    public void setProgramaFidelizacaoId(Long programaFidelizacaoId) {
+        this.programaFidelizacaoId = programaFidelizacaoId;
     }
 
     public Date getTempoExpiracao() {
@@ -31,8 +31,8 @@ public class ProgramaFidelizacao {
         return usuarioCadastro;
     }
 
-    public void setUsuarioCadastro(Adm usuario_cadastro) {
-        this.usuarioCadastro = usuario_cadastro;
+    public void setUsuarioCadastro(Adm usuarioCadastro) {
+        this.usuarioCadastro = usuarioCadastro;
     }
 
     public boolean isStatus() {
@@ -47,8 +47,8 @@ public class ProgramaFidelizacao {
         return qtdPremio;
     }
 
-    public void setQtdPremio(double qtd_premio) {
-        this.qtdPremio = qtd_premio;
+    public void setQtdPremio(double qtdPremio) {
+        this.qtdPremio = qtdPremio;
     }
 
     public TipoFidelizacao getTipoFidelizacao() {
@@ -57,6 +57,13 @@ public class ProgramaFidelizacao {
 
     public void setTipoFidelizacao(TipoFidelizacao tipoFidelizacao) {
         this.tipoFidelizacao = tipoFidelizacao;
+    }
 
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 }

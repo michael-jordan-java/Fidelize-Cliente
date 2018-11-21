@@ -4,31 +4,22 @@ import java.util.Date;
 
 public class Adm {
     private Long admId;
-
     private String nomeUsuario;
-
     private String senha;
-
     private String email;
-
     private String celular;
-
     private Date dataExpiracao;
-
     private boolean primeiroLogin;
-
     private boolean isMaster;
-
     private boolean status;
-
     private Date dataCadastro;
 
     public Long getAdmId() {
         return admId;
     }
 
-    public void setAdmId(Long id) {
-        this.admId = id;
+    public void setAdmId(Long admId) {
+        this.admId = admId;
     }
 
     public String getNomeUsuario() {
@@ -75,16 +66,16 @@ public class Adm {
         return primeiroLogin;
     }
 
-    public void setPrimeiroLogin(boolean primeiro_login) {
-        this.primeiroLogin = primeiro_login;
+    public void setPrimeiroLogin(boolean primeiroLogin) {
+        this.primeiroLogin = primeiroLogin;
     }
 
     public boolean isMaster() {
         return isMaster;
     }
 
-    public void setMaster(boolean isMaster) {
-        this.isMaster = isMaster;
+    public void setMaster(boolean master) {
+        isMaster = master;
     }
 
     public boolean isStatus() {

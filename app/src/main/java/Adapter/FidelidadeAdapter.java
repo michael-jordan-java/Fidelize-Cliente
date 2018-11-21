@@ -8,13 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.util.List;
+
 import fidelizacao.br.com.fidelizacao.R;
 
 public class FidelidadeAdapter extends RecyclerView.Adapter<FidelidadeAdapter.FidelidadeViewHolder> {
     private Context mContext;
-    private int[] fidelidadeList;
+    private List<Integer> fidelidadeList;
 
-    public FidelidadeAdapter(Context mContext, int[] fidelidadeList) {
+    public FidelidadeAdapter(Context mContext, List<Integer> fidelidadeList) {
         this.mContext = mContext;
         this.fidelidadeList = fidelidadeList;
     }
@@ -29,12 +31,17 @@ public class FidelidadeAdapter extends RecyclerView.Adapter<FidelidadeAdapter.Fi
 
     @Override
     public void onBindViewHolder(@NonNull FidelidadeViewHolder holder, int position) {
-        holder.ivFidelidade.setImageResource(fidelidadeList[position]);
+        if(fidelidadeList.get(position) == 1) {
+            holder.ivFidelidade.setImageResource(R.drawable.preenchimento_fidelidade_v2);
+            holder.ivFidelidade.setVisibility(View.INVISIBLE);
+        }else{
+            holder.ivFidelidade.setImageResource(fidelidadeList.get(position));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return fidelidadeList.length;
+        return fidelidadeList.size();
     }
 
     public class FidelidadeViewHolder extends RecyclerView.ViewHolder {

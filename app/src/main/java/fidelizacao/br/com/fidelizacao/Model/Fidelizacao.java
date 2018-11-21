@@ -13,8 +13,8 @@ public class Fidelizacao {
         return fidelizacaoId;
     }
 
-    public void setFidelizacaoId(Long id) {
-        this.fidelizacaoId = id;
+    public void setFidelizacaoId(Long fidelizacaoId) {
+        this.fidelizacaoId = fidelizacaoId;
     }
 
     public Cliente getCliente() {

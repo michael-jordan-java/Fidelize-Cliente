@@ -7,7 +7,7 @@ package fidelizacao.br.com.fidelizacao.Task;
 public interface HandlerTask {
     void onPreHandle();
 
-    void onSuccess(String valueRead);
+    void onSuccess(String valueRead) throws Exception;
 
     void onError(Exception erro);
 }

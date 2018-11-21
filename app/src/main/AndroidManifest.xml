@@ -13,7 +13,8 @@
 
         <activity
             android:name=".Activity.MainActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +35,9 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.LoginActivity">
+        <activity
+            android:name=".Activity.LoginActivity"
+            android:screenOrientation="landscape">
 
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
@@ -50,7 +53,9 @@
 
 
         </activity>
-        <activity android:name=".Activity.FidelidadeActivity">
+        <activity
+            android:name=".Activity.FidelidadeActivity"
+            android:screenOrientation="landscape">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -63,7 +68,9 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.CadastroClienteActivity">
+        <activity
+            android:name=".Activity.CadastroClienteActivity"
+            android:screenOrientation="landscape">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 

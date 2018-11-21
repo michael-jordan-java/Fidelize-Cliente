@@ -45,10 +45,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onSuccess(String valueRead) {
+        public void onSuccess(String valueRead) throws Exception {
             super.onSuccess(valueRead);
             Log.e("logs", valueRead);
-            PrefsUtil.salvarProgramaFidelizacao(context, valueRead);
+
+            if (valueRead.isEmpty()) {
+                throw new Exception("Nenhum programa de fidelização cadastrado!");
+            } else {
+                PrefsUtil.salvarProgramaFidelizacao(context, valueRead);
+            }
         }
 
         @Override
